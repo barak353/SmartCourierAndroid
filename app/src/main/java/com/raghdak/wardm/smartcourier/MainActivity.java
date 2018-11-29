@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnLogOut = (Button) findViewById(R.id.btnLogOut);
-        btnNewShipment = (Button) findViewById(R.id.btnNewShipment);
+        //btnNewShipment = (Button) findViewById(R.id.btnNewShipment);
         btnViewShipemtns = (Button) findViewById(R.id.btnViewShipments);
         btnViewUrgentShipments = (Button) findViewById(R.id.btnViewUrgentShipments);
         allShipmentsTextView = (TextView) findViewById(R.id.allShipmentsTextView);
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //----------------------------------------------------------------
-        btnNewShipment.setOnClickListener(new View.OnClickListener() {
+        /*btnNewShipment.setOnClickListener(new View.OnClickListener() {
             //--------------------------------------------------------------------
             @Override
             public void onClick(View view) {
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             }
-        });
+        });*/
 
         //----------------------------------------------------------------
         btnViewShipemtns.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnViewUrgentShipments.setOnClickListener(new View.OnClickListener() {
+        /*btnViewUrgentShipments.setOnClickListener(new View.OnClickListener() {
             //--------------------------------------------------------------------
             @Override
             public void onClick(View view) {
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             }
-        });
+        });*/
     }
 
 
