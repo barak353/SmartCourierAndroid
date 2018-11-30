@@ -7,12 +7,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.raghdak.wardm.smartcourier.SQL.DatabaseHelper;
 import com.raghdak.wardm.smartcourier.model.Courier;
 import com.raghdak.wardm.smartcourier.model.Shipment;
 import com.raghdak.wardm.smartcourier.protocol.response.LoginResponse;
+import com.android.volley.toolbox.Volley;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -60,8 +67,32 @@ public class LoginActivity extends AppCompatActivity {
         String cancel_req_tag = "login";
         progressDialog.setMessage("Logging you in...");
         showDialog();
-        LoginResponse loginResponse = databaseHelper.checkUser(email,password);
-        if (loginResponse.getText().equals("Login Successfull!")) {
+        final TextView mTextView = (TextView) findViewById(R.id.text);
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://localhost:8080/courier/1";
+        LoginResponse loginResponse;
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        mTextView.setText("Response is: "+ response.substring(0,500));
+                        //loginResponse = LoginResponse.OK();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+               // return LoginResponse.NO_User();
+                mTextView.setText("That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        //queue.add(stringRequest);
+        //LoginResponse loginResponse = databaseHelper.checkUser(email,password);
+        /*if (loginResponse.getText().equals("Login Successfull!")) {
             Courier courier = loginResponse.getCourier();
             // Launch User activity
             Intent intent = new Intent(
@@ -74,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     loginResponse.getText(), Toast.LENGTH_LONG).show();
             hideDialog();
-        }
+        }*/
     }
 
     private void showDialog() {

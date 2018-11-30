@@ -15,7 +15,7 @@ import com.raghdak.wardm.smartcourier.protocol.response.RegionResponse;
 
 import java.util.ArrayList;
 import java.util.Date;
-
+import com.android.volley.toolbox.Volley;
 /**
  * Created by wardm on 4/10/2018.
  */
@@ -274,7 +274,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return true/false
      */
     public LoginResponse checkUser(String email, String password) {
-        Log.i("DataBase", "PATH:" + mContext.getDatabasePath("SmartCourier.db"));
+
+        /*Log.i("DataBase", "PATH:" + mContext.getDatabasePath("SmartCourier.db"));
         Log.i("DataBase", "checkUser function called with Email: " + email + ",Password: " + password + ".");
         // array of columns to fetch
         String[] columns = {
@@ -295,7 +296,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
          * SQL query equivalent to this query function is
          * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com';
          */
-        Cursor cursor = db.query(TABLE_COURIER, //Table to query
+        /*Cursor cursor = db.query(TABLE_COURIER, //Table to query
                 columns,                    //columns to return
                 selection,                  //columns for the WHERE clause
                 selectionArgs,              //The values for the WHERE clause
@@ -323,7 +324,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 setCurrentCourier(courier);
                 return response;
             }
-        }
+        }*/
+        //setCurrentCourier(courier);
+        return LoginResponse.OK();
     }
 
     public RegionResponse getRegionShipments(String region) {
