@@ -8,12 +8,12 @@ import java.io.Serializable;
  */
 public class Courier implements Serializable {
     private String id;
-    private String token;
     private String email;
     private String password;
     private String firstName;
     private String lastName;
     private String phone;
+
     public Courier(String email, String password) {
         super();
         this.email = email;
@@ -24,7 +24,6 @@ public class Courier implements Serializable {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.token = token;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -60,12 +59,6 @@ public class Courier implements Serializable {
         this.phone = phone;
     }
 
-    public String getToken() {
-        return token;
-    }
-    public void setToken(String token) {
-        this.token = token;
-    }
     @Override
     public String toString() {
         return "Courier [email=" + email + ", password=" + password + /*", firstName=" + firstName + ", LastName=" + lastName

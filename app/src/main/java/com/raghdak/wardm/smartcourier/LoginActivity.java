@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.raghdak.wardm.smartcourier.SQL.DatabaseHelper;
 import com.raghdak.wardm.smartcourier.model.Courier;
 import com.raghdak.wardm.smartcourier.model.Shipment;
+import com.raghdak.wardm.smartcourier.model.User;
 import com.raghdak.wardm.smartcourier.protocol.response.LoginResponse;
 import com.android.volley.toolbox.Volley;
 
@@ -89,13 +90,17 @@ public class LoginActivity extends AppCompatActivity {
                         // display response
                         Log.d("Response", response.toString());
                         Gson gson=new Gson();
-
-                        Courier courier = gson.fromJson(response.toString(), Courier.class);
-
+                        User user = gson.fromJson(response.toString(), User.class);
+                        if(user == null || user.getToken() == null){
+                            Toast.makeText(getApplicationContext(),
+                                    "הכנסת פרטים שגויים", Toast.LENGTH_LONG).show();
+                            hideDialog();
+                            return;
+                        }
                         Intent intent = new Intent(
                                 LoginActivity.this,
                                 MainActivity.class);
-                        intent.putExtra("courier", response.toString());
+                        intent.putExtra("user", response.toString());
                         startActivity(intent);
                         finish();
                     }
