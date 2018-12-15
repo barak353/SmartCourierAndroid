@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,12 +15,19 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
 import com.raghdak.wardm.smartcourier.SQL.DatabaseHelper;
 import com.raghdak.wardm.smartcourier.model.Courier;
 import com.raghdak.wardm.smartcourier.model.Shipment;
 import com.raghdak.wardm.smartcourier.protocol.response.LoginResponse;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,8 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         //--------------------------------------------------------------
         databaseHelper = DatabaseHelper.getInstance(this);
-        databaseHelper.addCourier(new Courier("test","1234",
-               "Ward","Mohanna","Peqiin","+972546697971"));
+        //databaseHelper.addCourier(new Courier("test","1234",
+        //       "Ward","Mohanna","Peqiin","+972546697971"));
         //--------------------------------------------------------------
         //--------------------------------------------------------------
         btnlogin.setOnClickListener(new View.OnClickListener() {
@@ -67,46 +75,44 @@ public class LoginActivity extends AppCompatActivity {
         String cancel_req_tag = "login";
         progressDialog.setMessage("Logging you in...");
         showDialog();
-        final TextView mTextView = (TextView) findViewById(R.id.text);
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://192.168.14.76:8080/courier/1";
-        //LoginResponse loginResponse;
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+        RequestQueue queue = Volley.newRequestQueue(this); // this = context
+        final String url = "http://192.168.14.76:8080/app/courier/authenticate";
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", email);
+        params.put("password", password);
+        // prepare the Request
+        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, url, new JSONObject(params),
+                new Response.Listener<JSONObject>()
+                {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
+                        // display response
+                        Log.d("Response", response.toString());
+                        Gson gson=new Gson();
 
-                        // Display the first 500 characters of the response string.
-                        mTextView.setText("Response is: "+ response.substring(0,500));
-                        //loginResponse = LoginResponse.OK();
+                        Courier courier = gson.fromJson(response.toString(), Courier.class);
+
+                        Intent intent = new Intent(
+                                LoginActivity.this,
+                                MainActivity.class);
+                        intent.putExtra("courier", response.toString());
+                        startActivity(intent);
+                        finish();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-               // return LoginResponse.NO_User();
-                mTextView.setText("That didn't work!");
-            }
-        });
-
-         //Add the request to the RequestQueue.
-        queue.add(stringRequest);
-        //LoginResponse loginResponse = databaseHelper.checkUser(email,password);
-        /*if (loginResponse.getText().equals("Login Successfull!")) {
-            Courier courier = loginResponse.getCourier();
-            // Launch User activity
-            Intent intent = new Intent(
-                    LoginActivity.this,
-                    MainActivity.class);
-            intent.putExtra("courier", courier);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(getApplicationContext(),
-                    loginResponse.getText(), Toast.LENGTH_LONG).show();
-            hideDialog();
-        }*/
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                        Toast.makeText(getApplicationContext(),
+                                error.toString(), Toast.LENGTH_LONG).show();
+                        hideDialog();
+                    }
+                }
+        );
+// add it to the RequestQueue  
+        queue.add(putRequest);
     }
 
     private void showDialog() {

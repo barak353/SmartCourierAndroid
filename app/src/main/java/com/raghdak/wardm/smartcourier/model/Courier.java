@@ -7,25 +7,27 @@ import java.io.Serializable;
  * Created by wardm on 22/11/2017.
  */
 public class Courier implements Serializable {
+    private String id;
+    private String token;
     private String email;
     private String password;
     private String firstName;
     private String lastName;
-    private String address;
-    private String telephone;
+    private String phone;
     public Courier(String email, String password) {
         super();
         this.email = email;
         this.password = password;
     }
-    public Courier(String email, String password, String firstName, String lastName, String address, String telephone) {
+    public Courier(String id, String email, String password, /*String firstName, String lastName, String address,*/ String phone) {
         super();
+        this.id = id;
         this.email = email;
         this.password = password;
+        this.token = token;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
-        this.telephone = telephone;
+        this.phone = phone;
     }
     public String getEmail() {
         return email;
@@ -51,22 +53,23 @@ public class Courier implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    public String getAddress() {
-        return address;
+    public String getPhone() {
+        return phone;
     }
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
-    public String getTelephone() {
-        return telephone;
+
+    public String getToken() {
+        return token;
     }
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setToken(String token) {
+        this.token = token;
     }
     @Override
     public String toString() {
-        return "Courier [email=" + email + ", password=" + password + ", firstName=" + firstName + ", LastName=" + lastName
-                + ", address=" + address + ", telephone=" + telephone + "]";
+        return "Courier [email=" + email + ", password=" + password + /*", firstName=" + firstName + ", LastName=" + lastName
+                + ", address=" + address + ", */ " phone=" + phone + "]";
     }
 
 }

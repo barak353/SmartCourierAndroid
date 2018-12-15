@@ -186,11 +186,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         Log.i("DataBase", "addCourier function called with Email: " + courier.getEmail() + ".");
         values.put(COLUMN_COURIER_EMAIL, courier.getEmail());
-        values.put(COLUMN_COURIER_FIRSTNAME, courier.getFirstName());
-        values.put(COLUMN_COURIER_LASTNAME, courier.getLastName());
+       // values.put(COLUMN_COURIER_FIRSTNAME, courier.getFirstName());
+        //values.put(COLUMN_COURIER_LASTNAME, courier.getLastName());
         values.put(COLUMN_COURIER_PASSWORD, courier.getPassword());
-        values.put(COLUMN_COURIER_ADDRESS, courier.getAddress());
-        values.put(COLUMN_COURIER_TELEPHONE, courier.getTelephone());
+        //values.put(COLUMN_COURIER_ADDRESS, courier.getAddress());
+       // values.put(COLUMN_COURIER_TELEPHONE, courier.getTelephone());
         // Inserting Row
         db.insert(TABLE_COURIER, null, values);
         db.close();
