@@ -70,13 +70,14 @@ public class LoginActivity extends AppCompatActivity {
         final TextView mTextView = (TextView) findViewById(R.id.text);
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://localhost:8080/courier/1";
-        LoginResponse loginResponse;
+        String url ="http://192.168.14.76:8080/courier/1";
+        //LoginResponse loginResponse;
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
                         // Display the first 500 characters of the response string.
                         mTextView.setText("Response is: "+ response.substring(0,500));
                         //loginResponse = LoginResponse.OK();
@@ -89,8 +90,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Add the request to the RequestQueue.
-        //queue.add(stringRequest);
+         //Add the request to the RequestQueue.
+        queue.add(stringRequest);
         //LoginResponse loginResponse = databaseHelper.checkUser(email,password);
         /*if (loginResponse.getText().equals("Login Successfull!")) {
             Courier courier = loginResponse.getCourier();
