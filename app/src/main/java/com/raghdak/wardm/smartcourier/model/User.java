@@ -11,7 +11,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String token;
-
+    public static User currentUser;
     public User(String email, String password) {
         super();
         this.username = username;
@@ -42,7 +42,12 @@ public class User implements Serializable {
     public void setToken(String token) {
         this.token = token;
     }
-
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
     @Override
     public String toString() {
         return "Courier [username=" + username + ", password=" + password + /*", firstName=" + firstName + ", LastName=" + lastName

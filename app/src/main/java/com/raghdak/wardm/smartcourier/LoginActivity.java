@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Logging you in...");
         showDialog();
         RequestQueue queue = Volley.newRequestQueue(this); // this = context
-        final String url = "http://192.168.14.76:8080/app/courier/authenticate";
+        final String url = "http://10.0.2.2:8080/app/courier/authenticate";
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", email);
         params.put("password", password);
@@ -91,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("Response", response.toString());
                         Gson gson=new Gson();
                         User user = gson.fromJson(response.toString(), User.class);
+                        User.currentUser = user;
                         if(user == null || user.getToken() == null){
                             Toast.makeText(getApplicationContext(),
                                     "הכנסת פרטים שגויים", Toast.LENGTH_LONG).show();

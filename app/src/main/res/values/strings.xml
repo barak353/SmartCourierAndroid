@@ -52,12 +52,7 @@
     <string name="delivered_shipments">נמסרו</string>
 
     <string-array name="region_arrays">
-        <item>מחוז הצפון</item>
-        <item>מחוז חיפה</item>
-        <item>מחוז המרכז</item>
-        <item>מחוז תל אביב</item>
-        <item>מחוז ירושלים</item>
-        <item>מחוז הדרום</item>
+        <item>בחר אזור</item>
     </string-array>
     <string name="title_activity_map">Urgents Map</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCwBQdtuGZ5Q102hI8_VUIRzR14EE3ACaA</string>

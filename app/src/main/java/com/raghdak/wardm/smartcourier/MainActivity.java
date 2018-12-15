@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
         btnLogOut = (Button) findViewById(R.id.btnLogOut);
         //btnNewShipment = (Button) findViewById(R.id.btnNewShipment);
         btnViewShipemtns = (Button) findViewById(R.id.btnViewShipments);
-        btnViewUrgentShipments = (Button) findViewById(R.id.btnViewUrgentShipments);
-        allShipmentsTextView = (TextView) findViewById(R.id.allShipmentsTextView);
+        //btnViewUrgentShipments = (Button) findViewById(R.id.btnViewUrgentShipments);
+        //allShipmentsTextView = (TextView) findViewById(R.id.allShipmentsTextView);
         deliveredShipmentsTextView = (TextView) findViewById(R.id.deliveredShipmentsTextView);
-        databaseHelper = DatabaseHelper.getInstance(this);
-        allShipmentsTextView.setText("" + databaseHelper.countAllShipments());
-        deliveredShipmentsTextView.setText("" + databaseHelper.countDeliveredShipments());
+        //databaseHelper = DatabaseHelper.getInstance(this);
+       // allShipmentsTextView.setText("" + databaseHelper.countAllShipments());
+        //deliveredShipmentsTextView.setText("" + databaseHelper.countDeliveredShipments());
         //--------------------------------------------------------------------
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             //--------------------------------------------------------------------
