@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.raghdak.wardm.smartcourier.ViewShipmentsActivity.PERMISSION_ACCESS_COARSE_LOCATION;
+import static com.raghdak.wardm.smartcourier.ViewDeliveriesActivity.PERMISSION_ACCESS_COARSE_LOCATION;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -119,7 +119,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onClick(View view) {
                 // Launch User activity
-                Intent intent = new Intent(getApplicationContext(), ViewShipmentsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ViewDeliveriesActivity.class);
                 intent.putExtra("shipments", selectedShipments);
                 startActivity(intent);
 

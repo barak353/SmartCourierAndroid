@@ -26,6 +26,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.raghdak.wardm.smartcourier.SQL.DatabaseHelper;
+import com.raghdak.wardm.smartcourier.model.Delivery;
 import com.raghdak.wardm.smartcourier.model.Shipment;
 import com.raghdak.wardm.smartcourier.tools.AppSingleton;
 
@@ -37,7 +38,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class NewShipmentActivity extends AppCompatActivity {
+public class NewDeliveryActivity extends AppCompatActivity {
 
     private Button btnBack;
     private Button btnSave;
@@ -45,7 +46,7 @@ public class NewShipmentActivity extends AppCompatActivity {
     private DatePicker dueDate;
     private DatabaseHelper databaseHelper;
     private CheckBox urgentCheckBox;
-    private static final String TAG = "NewShipmentActivity";
+    private static final String TAG = "NewDeliveryActivity";
     private double Lat;
     private double Lng;
     private String mCity;
@@ -59,7 +60,7 @@ public class NewShipmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_shipment);
+        setContentView(R.layout.activity_new_delivery);
         databaseHelper = DatabaseHelper.getInstance(this);
         btnBack = (Button) findViewById(R.id.btnBack);
         btnSave = (Button) findViewById(R.id.btnSave);
@@ -176,7 +177,7 @@ public class NewShipmentActivity extends AppCompatActivity {
                     else
                         poboxTxt.setBackgroundColor(Color.rgb(255,255,255));
                 }else {
-                    Shipment newShipment = new Shipment(
+                    /*Delivery newDelivery = new Delivery(
                             Lat,
                             Lng,
                             Region_string,
@@ -189,8 +190,8 @@ public class NewShipmentActivity extends AppCompatActivity {
                             poboxTxt.getText().toString(),
                             getDateFromDatePicker(dueDate),
                             databaseHelper.getCurrentCourier().getEmail()
-                    );
-                    databaseHelper.addShipment(newShipment);
+                    );*/
+                    //databaseHelper.addDelivery(newDelivery);
                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(i);
                     finish();

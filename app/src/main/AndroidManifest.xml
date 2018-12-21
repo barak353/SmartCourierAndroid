@@ -51,13 +51,13 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                f <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".NewShipmentActivity" />
+        <activity android:name=".NewDeliveryActivity" />
         <activity android:name=".MapActivity" />
-        <activity android:name=".ViewShipmentsActivity" />
+        <activity android:name=".ViewDeliveriesActivity" />
         <activity android:name=".ReportActivity" />
         <activity android:name=".RegionActivity"/>
     </application>

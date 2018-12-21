@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.location.places.Place;
+import com.raghdak.wardm.smartcourier.model.Delivery;
 import com.raghdak.wardm.smartcourier.model.Shipment;
 import com.raghdak.wardm.smartcourier.tools.AppSingleton;
 
@@ -38,16 +39,16 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class ViewShipmentsActivity extends AppCompatActivity {
-    private static final String TAG = "ViewShipmentsActivity";
+public class ViewDeliveriesActivity extends AppCompatActivity {
+    private static final String TAG = "ViewDeliveriesActivity";
     private ListView listView;
     private Button btnNavigate;
     private Button btnFinish;
     private double firstLat;
     private double firstLng;
     List<String> addresses;
-    ArrayList<Shipment> shipments;
-    ArrayList<Shipment> shipmentsToOrder;
+    ArrayList<Delivery> deliveries;
+    ArrayList<Delivery> deliveriesToOrder;
     protected static final int PERMISSION_ACCESS_COARSE_LOCATION = 111;
     LocationManager mLocationManager;
 
@@ -55,30 +56,30 @@ public class ViewShipmentsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_shipments);
+        setContentView(R.layout.activity_view_deliveries);
         listView = (ListView) findViewById(R.id.list);
         btnNavigate = (Button) findViewById(R.id.btnNavigate);
         btnFinish = (Button) findViewById(R.id.btnFinish);
         Bundle bundle = getIntent().getExtras();
-        shipmentsToOrder = (ArrayList<Shipment>) bundle.get("shipments");
-        orderShipments(shipmentsToOrder);
+        deliveriesToOrder = (ArrayList<Delivery>) bundle.get("deliveries");
+        orderDeliveries(deliveriesToOrder);
 
         btnNavigate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "onClick: ");
-                String uri = "waze://?ll=" + shipments.get(0).getLat() + "," + shipments.get(0).getLng() + "&navigate=yes";
+                String uri = "waze://?ll=" + deliveries.get(0).getLatitude() + "," + deliveries.get(0).getLongitude() + "&navigate=yes";
                 //String uri = "waze://ul?q=66%20Acacia%20Avenue";
                 Intent i = new Intent(getApplicationContext(), ReportActivity.class);
-                i.putExtra("shipmentID", shipments.get(0).getId());
-                shipments.remove(0);
-                if (shipments.size() == 0)
+                i.putExtra("deliveryID", deliveries.get(0).getId());
+                deliveries.remove(0);
+                if (deliveries.size() == 0)
                     btnNavigate.setEnabled(false);
                 addresses = new ArrayList<String>();
-                for (Shipment shipment : shipments) {
-                    addresses.add(shipment.getAddress());
+                for (Delivery delivery : deliveries) {
+                    addresses.add(delivery.getName());
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewShipmentsActivity.this, android.R.layout.simple_list_item_1, addresses);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewDeliveriesActivity.this, android.R.layout.simple_list_item_1, addresses);
                 listView.setAdapter(adapter);
                 startActivity(i);
                 startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
@@ -98,7 +99,7 @@ public class ViewShipmentsActivity extends AppCompatActivity {
     }
 
 
-    private void orderShipments(final ArrayList<Shipment> shipmentsToOrder) {
+    private void orderDeliveries(final ArrayList<Delivery> deliveriesToOrder) {
         String URL_FOR_GOOGLE_DIRECTIONS = "https://maps.googleapis.com/maps/api/directions/json?origin=";
         LocationManager locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
@@ -114,8 +115,8 @@ public class ViewShipmentsActivity extends AppCompatActivity {
         firstLat = location.getLatitude();
         firstLng = location.getLongitude();
         URL_FOR_GOOGLE_DIRECTIONS += firstLat + "," + firstLng + "&destination=" + firstLat + "," + firstLng + "&waypoints=optimize:true";
-        for (Shipment shipment : shipmentsToOrder) {
-            URL_FOR_GOOGLE_DIRECTIONS += "|" + shipment.getLat() + "," + shipment.getLng();
+        for (Delivery delivery : deliveriesToOrder) {
+            URL_FOR_GOOGLE_DIRECTIONS += "|" + delivery.getLatitude() + "," + delivery.getLongitude();
         }
         URL_FOR_GOOGLE_DIRECTIONS += "&key=" + getText(R.string.google_maps_key).toString();
         //get the sub-region
@@ -139,15 +140,15 @@ public class ViewShipmentsActivity extends AppCompatActivity {
                                 newOrder.add(waypointsOrder.getInt(i));
                             }
                         }
-                        shipments = new ArrayList<Shipment>();
+                        deliveries = new ArrayList<Delivery>();
                         for (int index : newOrder) {
-                            shipments.add(shipmentsToOrder.get(newOrder.get(index)));
+                            deliveries.add(deliveriesToOrder.get(newOrder.get(index)));
                         }
                         addresses = new ArrayList<String>();
-                        for (Shipment shipment : shipments) {
-                            addresses.add(shipment.getAddress());
+                        for (Delivery delivery : deliveries) {
+                            addresses.add(delivery.getName());
                         }
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewShipmentsActivity.this, android.R.layout.simple_list_item_1, addresses);
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewDeliveriesActivity.this, android.R.layout.simple_list_item_1, addresses);
                         listView.setAdapter(adapter);
                     }
                 } catch (JSONException e1) {

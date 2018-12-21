@@ -46,14 +46,14 @@ public class RegionActivity extends AppCompatActivity {
 
 
     private Button btnBack;
-    private Button btnViewShipments;
+    private Button btnViewDeliveries;
     private Spinner spinner;
     ArrayList<Region> regions = new ArrayList<Region>();
     ArrayList<String> regionsNames = new ArrayList<String>();
     private Context context = this;
     private DatabaseHelper databaseHelper;
-    private ArrayList<Shipment> shipments = new ArrayList<Shipment>();;
     private ArrayList<Delivery> deliveries = new ArrayList<Delivery>();;
+    //private ArrayList<Delivery> deliveries = new ArrayList<Delivery>();;
     private ArrayList<String> subRegionsList;
 
 
@@ -115,7 +115,7 @@ public class RegionActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);*/
         //subRegions = (Spinner) findViewById(R.id.spnrSubRegion);
         btnBack = (Button) findViewById(R.id.btnBack);
-        btnViewShipments = (Button) findViewById(R.id.btnGetTrack);
+        btnViewDeliveries = (Button) findViewById(R.id.btnGetTrack);
         /*(shipments = getRegionList(regions.getSelectedItem().toString());
         if (shipments == null) {
             Toast.makeText(getApplicationContext(),
@@ -168,7 +168,7 @@ public class RegionActivity extends AppCompatActivity {
         });
 
         //--------------------------------------------------------------------------------------
-        btnViewShipments.setOnClickListener(new View.OnClickListener() {
+        btnViewDeliveries.setOnClickListener(new View.OnClickListener() {
             //--------------------------------------------------------------------------------------
             @Override
             public void onClick(View view) {
@@ -220,18 +220,10 @@ public class RegionActivity extends AppCompatActivity {
                                                 Toast toast = Toast.makeText(context, text, duration);
                                                 toast.show();
                                             }else{
-                                                shipments.clear();
-                                                Intent intent = new Intent(getApplicationContext(), ViewShipmentsActivity.class);
-                                                for(Delivery deliveryIt: deliveries)
-                                                {
-                                                    SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-                                                    String dateInString = "31-08-1982 10:20:56";
-                                                    Date date = sdf.parse(dateInString);
-                                                    Shipment shipment = new Shipment(deliveryIt.getLatitude(),deliveryIt.getLongitude(),"", "", "h", "1", "2", "t", "t", "b", date ,"2");
-                                                    shipments.add(shipment);
-                                                }
-                                                if(shipments != null) {
-                                                    intent.putExtra("shipments", shipments);
+                                                //deliveries.clear();
+                                                Intent intent = new Intent(getApplicationContext(), ViewDeliveriesActivity.class);
+                                                if(deliveries != null) {
+                                                    intent.putExtra("deliveries", deliveries);
                                                     startActivity(intent);
                                                     finish();
                                                 }
@@ -239,8 +231,6 @@ public class RegionActivity extends AppCompatActivity {
 
                                                         //This should be as shipment.
                                         } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        } catch (ParseException e) {
                                             e.printStackTrace();
                                         }
                                     }
@@ -285,16 +275,16 @@ public class RegionActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<Shipment> getRegionList(String region) {
-        RegionResponse regionResponse = databaseHelper.getRegionShipments(region);
-        if (regionResponse.getText().equals("OK")) {
-            shipments = regionResponse.getShipments();
-            return shipments;
-        } else {
+    private ArrayList<Delivery> getRegionList(String region) {
+        //RegionResponse regionResponse = databaseHelper.getRegionDeliveries(region);
+        //if (regionResponse.getText().equals("OK")) {
+            //deliveries = regionResponse.getDeliveries();
+       //     return deliveries;
+        //} else {
             //Toast.makeText(getApplicationContext(),
             //        regionResponse.getText(), Toast.LENGTH_LONG).show();
             return null;
-        }
+        //}
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {

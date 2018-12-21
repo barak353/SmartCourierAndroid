@@ -365,7 +365,7 @@ public class ReportActivity extends AppCompatActivity {
                     Report_string = "---------------------------------------------\n";
                     Report_string = Report_string + "לא נמצא בכתובת " + "\n";
                     Report_string = Report_string + "---------------------------------------------\n";
-                    Intent intent = new Intent(getApplicationContext(), ViewShipmentsActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ViewDeliveriesActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivityIfNeeded(intent, 0);
                 } else {
@@ -545,7 +545,7 @@ public class ReportActivity extends AppCompatActivity {
 
         if (requestCode == EMAIL_REQ_CODE && resultCode == RESULT_OK) {
 
-            Intent intent = new Intent(getApplicationContext(), ViewShipmentsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ViewDeliveriesActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivityIfNeeded(intent, 0);
 
