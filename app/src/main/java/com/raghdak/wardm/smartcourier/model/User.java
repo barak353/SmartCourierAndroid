@@ -12,6 +12,8 @@ public class User implements Serializable {
     private String password;
     private String token;
     public static User currentUser;
+    public final static String ip = "10.100.102.15";//"10.0.2.2";
+
     public User(String email, String password) {
         super();
         this.username = username;

@@ -23,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.raghdak.wardm.smartcourier.SQL.DatabaseHelper;
+import com.raghdak.wardm.smartcourier.model.Delivery;
 import com.raghdak.wardm.smartcourier.model.Region;
 import com.raghdak.wardm.smartcourier.model.Shipment;
 import com.raghdak.wardm.smartcourier.model.User;
@@ -32,7 +33,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -48,7 +52,8 @@ public class RegionActivity extends AppCompatActivity {
     ArrayList<String> regionsNames = new ArrayList<String>();
     private Context context = this;
     private DatabaseHelper databaseHelper;
-    private ArrayList<Shipment> shipments;
+    private ArrayList<Shipment> shipments = new ArrayList<Shipment>();;
+    private ArrayList<Delivery> deliveries = new ArrayList<Delivery>();;
     private ArrayList<String> subRegionsList;
 
 
@@ -60,7 +65,7 @@ public class RegionActivity extends AppCompatActivity {
         //databaseHelper = DatabaseHelper.getInstance(this);
         User user = User.currentUser;
         RequestQueue queue = Volley.newRequestQueue(this); // this = context
-        final String url = "http://10.0.2.2:8080/region/getRegions/" + user.getId();
+        final String url = "http://" + User.ip + ":8080/region/getRegions/" + user.getId();
 
         // prepare the Request
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -69,23 +74,24 @@ public class RegionActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         //JSONArray jArray = (JSONArray)response;
-                        if(response.length() > 0)
-                            for(int countItem = 0; countItem < response.length(); countItem++)
-                            {
+                        if(response.length() > 0) {
+                            for (int countItem = 0; countItem < response.length(); countItem++) {
                                 try {
                                     JSONObject region = response.getJSONObject(countItem);
-                                    Gson gson=new Gson();
+                                    Gson gson = new Gson();
                                     Region regionItem = gson.fromJson(region.toString(), Region.class);
-                                    regions.add(regionItem);
-                                    for(Region regionIt: regions)
-                                        regionsNames.add(regionIt.getRegionName());
+                                    if (regionItem != null)
+                                        regions.add(regionItem);
+                                    regionsNames.add("בחר אזור");
                                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, regionsNames);
                                     spinner.setAdapter(adapter);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
-
+                            for (Region regionIt : regions)
+                                regionsNames.add(regionIt.getRegionName());
+                        }
                         Log.d("Response", response.toString());
                     }
                 },
@@ -166,6 +172,95 @@ public class RegionActivity extends AppCompatActivity {
             //--------------------------------------------------------------------------------------
             @Override
             public void onClick(View view) {
+                String choosedRegion = spinner.getSelectedItem().toString();
+                if(choosedRegion == "בחר אזור")
+                {
+                    Context context = getApplicationContext();
+                    CharSequence text = "אנא בחר אזור";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    return;
+                }
+                String choosedRegionId = "";
+                for(Region regionIt: regions)
+                    if(regionIt.getRegionName() == choosedRegion) {
+                        choosedRegionId = regionIt.getId();
+                        break;
+                    }
+                if(choosedRegionId == "")
+                    return;
+                User user = User.currentUser;
+                RequestQueue queue = Volley.newRequestQueue(RegionActivity.this); // this = context
+                final String url = "http://" + User.ip + ":8080/region/getDeliveries/" + choosedRegionId + '/' + user.getId();
+
+
+
+
+                // prepare the Request
+                JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONArray>()
+                        {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                //JSONArray jArray = (JSONArray)response;
+                                if(response.length() > 0)
+                                    for(int countItem = 0; countItem < response.length(); countItem++)
+                                    {
+                                        try {
+                                            JSONObject delivery = response.getJSONObject(countItem);
+                                            Gson gson=new Gson();
+                                            Delivery deliveryItem = gson.fromJson(delivery.toString(), Delivery.class);
+                                            if(deliveryItem != null)
+                                                deliveries.add(deliveryItem);
+                                            if(deliveries.size() == 0){
+                                                Context context = getApplicationContext();
+                                                CharSequence text = "אין שליחויות להציג באזור זה";
+                                                int duration = Toast.LENGTH_SHORT;
+                                                Toast toast = Toast.makeText(context, text, duration);
+                                                toast.show();
+                                            }else{
+                                                shipments.clear();
+                                                Intent intent = new Intent(getApplicationContext(), ViewShipmentsActivity.class);
+                                                for(Delivery deliveryIt: deliveries)
+                                                {
+                                                    SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+                                                    String dateInString = "31-08-1982 10:20:56";
+                                                    Date date = sdf.parse(dateInString);
+                                                    Shipment shipment = new Shipment(deliveryIt.getLatitude(),deliveryIt.getLongitude(),"", "", "h", "1", "2", "t", "t", "b", date ,"2");
+                                                    shipments.add(shipment);
+                                                }
+                                                if(shipments != null) {
+                                                    intent.putExtra("shipments", shipments);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            }
+
+                                                        //This should be as shipment.
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                Log.d("Response", response.toString());
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("Error.Response", error.toString());
+                            }
+                        }
+                );
+
+
+
+                // add it to the RequestQueue  
+                queue.add(getRequest);
                 /*shipments = getRegionList(regions.getSelectedItem().toString());
                 if (shipments == null) {
                     Toast.makeText(getApplicationContext(),
@@ -179,7 +274,7 @@ public class RegionActivity extends AppCompatActivity {
                             }
                         }
                     }
-                // Launch User activity
+                 Launch User activity
                 Intent intent = new Intent(getApplicationContext(), ViewShipmentsActivity.class);
                 intent.putExtra("shipments", shipments);
                 startActivity(intent);
