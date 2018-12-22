@@ -26,7 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.location.places.Place;
 import com.raghdak.wardm.smartcourier.model.Delivery;
-import com.raghdak.wardm.smartcourier.model.Shipment;
+import com.raghdak.wardm.smartcourier.model.Delivery;
 import com.raghdak.wardm.smartcourier.tools.AppSingleton;
 
 import org.json.JSONArray;

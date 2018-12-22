@@ -39,7 +39,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import com.raghdak.wardm.smartcourier.SQL.DatabaseHelper;
-import com.raghdak.wardm.smartcourier.model.Shipment;
+import com.raghdak.wardm.smartcourier.model.Delivery;
 
 import java.io.Console;
 import java.io.File;
@@ -108,7 +108,7 @@ public class ReportActivity extends AppCompatActivity {
 
     private ArrayList<String> images_path;
     private ArrayList<String> images_text;
-    private String ShipmentID;
+    private Long DeliveryID;
     private String Report_string = "";
     final int RQS_LOADIMAGE = 0;
     final int RQS_SENDEMAIL = 1;
@@ -118,7 +118,7 @@ public class ReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
-        //TODO: remove : ShipmentID = (String) bundle.get("shipmentID");
+        //TODO: remove : DeliveryID = (String) bundle.get("deliveryID");
         setContentView(R.layout.activity_report);
         databaseHelper = DatabaseHelper.getInstance(this);
         btnSave = (Button) findViewById((R.id.btn_next_address));
@@ -324,7 +324,7 @@ public class ReportActivity extends AppCompatActivity {
                 String privateH = "0";
                 String NotFound = "0";
                 Report_string = "------------------------------------------------------------------------------------------------\n";
-                Report_string = Report_string + "דוח סופי למספר משלוח " + ShipmentID;
+                Report_string = Report_string + "דוח סופי למספר משלוח " + DeliveryID;
                 Report_string = Report_string + "\n------------------------------------------------------------------------------------------------\n\n";
                 Report_string = Report_string + "להלן סיכום הדוח: ";
                 Report_string = Report_string + "\n" + "\n" + "\n";
@@ -370,8 +370,8 @@ public class ReportActivity extends AppCompatActivity {
                     startActivityIfNeeded(intent, 0);
                 } else {
                     NotFound = "0";
-                    Shipment newReport = new Shipment(
-                            ShipmentID,
+                    Delivery newReport = new Delivery(
+                            DeliveryID,
                             NotFound,
                             receiverEditText.getText().toString(),
                             floorEditText.getText().toString(),
@@ -415,7 +415,7 @@ public class ReportActivity extends AppCompatActivity {
                         return;
                     }
 
-                    databaseHelper.addReport(newReport);
+                    //databaseHelper.addReport(newReport);
                     images_text.add(0, image1txt.getText().toString());
                     images_text.add(1, image2txt.getText().toString());
                     images_text.add(2, image3txt.getText().toString());
@@ -423,12 +423,12 @@ public class ReportActivity extends AppCompatActivity {
                     images_text.add(4, image5txt.getText().toString());
 
                     // Updating Images...
-                    Shipment images = new Shipment(
-                            ShipmentID,
+                    Delivery images = new Delivery(
+                            DeliveryID,
                             images_path,
                             images_text
                     );
-                    databaseHelper.addImages(images);
+                    //databaseHelper.addImages(images);
 
                     Report_string = Report_string + "\n==============================\n";
                     Report_string = Report_string + "פירוט תמונות :  " + "\n";
@@ -592,7 +592,7 @@ public class ReportActivity extends AppCompatActivity {
         }
 
         String[] emails = {"Wardmohanna@gmail.com"};
-        composeEmail(emails, "דוח סיכום משלוח " + ShipmentID);
+        composeEmail(emails, "דוח סיכום משלוח " + DeliveryID);
     }
 
     public void composeEmail(String[] addresses, String subject) {

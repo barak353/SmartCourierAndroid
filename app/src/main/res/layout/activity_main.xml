@@ -7,30 +7,30 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/btnViewShipments"
+        android:id="@+id/btnViewDeliveries"
         android:layout_width="237dp"
         android:layout_height="65dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="252dp"
         android:background="@color/login_button_background"
-        android:text="@string/viewShipment"
+        android:text="@string/viewDelivery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--<Button
-        android:id="@+id/btnViewUrgentShipments"
+        android:id="@+id/btnViewUrgentDeliveries"
         android:layout_width="238dp"
         android:layout_height="66dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:background="@color/login_button_background"
-        android:text="@string/viewsUrgentShipment"
+        android:text="@string/viewsUrgentDelivery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnViewShipments" />-->
+        app:layout_constraintTop_toBottomOf="@+id/btnViewDeliveries" />-->
 
     <Button
         android:id="@+id/btnLogOut"
@@ -44,15 +44,15 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!--<Button
-        android:id="@+id/btnNewShipment"
+        android:id="@+id/btnNewDelivery"
         android:layout_width="238dp"
         android:layout_height="66dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="@color/login_button_background"
-        android:text="@string/newShipment"
-        app:layout_constraintBottom_toTopOf="@+id/btnViewShipments"
+        android:text="@string/newDelivery"
+        app:layout_constraintBottom_toTopOf="@+id/btnViewDeliveries"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />-->
 
@@ -75,18 +75,18 @@
         android:layout_height="35dp"
         android:layout_marginStart="72dp"
         android:layout_marginTop="100dp"
-        android:text="@string/all_the_shipments"
+        android:text="@string/all_the_deliveries"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnViewUrgentShipments" />
+        app:layout_constraintTop_toBottomOf="@+id/btnViewUrgentDeliveries" />
 
     <TextView
-        android:id="@+id/allShipmentsTextView"
+        android:id="@+id/allDeliveriesTextView"
         android:layout_width="68dp"
         android:layout_height="35dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="100dp"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/btnViewUrgentShipments" />-->
+        app:layout_constraintTop_toBottomOf="@+id/btnViewUrgentDeliveries" />-->
 
     <TextView
         android:id="@+id/textView4"
@@ -99,13 +99,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
-        android:id="@+id/deliveredShipmentsTextView"
+        android:id="@+id/deliveredDeliveriesTextView"
         android:layout_width="68dp"
         android:layout_height="35dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="36dp"
         app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/allShipmentsTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/allDeliveriesTextView" />
 
 
 </android.support.constraint.ConstraintLayout>

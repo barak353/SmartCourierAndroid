@@ -25,7 +25,7 @@ import com.google.gson.Gson;
 import com.raghdak.wardm.smartcourier.SQL.DatabaseHelper;
 import com.raghdak.wardm.smartcourier.model.Delivery;
 import com.raghdak.wardm.smartcourier.model.Region;
-import com.raghdak.wardm.smartcourier.model.Shipment;
+import com.raghdak.wardm.smartcourier.model.Delivery;
 import com.raghdak.wardm.smartcourier.model.User;
 import com.raghdak.wardm.smartcourier.protocol.response.RegionResponse;
 
@@ -116,15 +116,15 @@ public class RegionActivity extends AppCompatActivity {
         //subRegions = (Spinner) findViewById(R.id.spnrSubRegion);
         btnBack = (Button) findViewById(R.id.btnBack);
         btnViewDeliveries = (Button) findViewById(R.id.btnGetTrack);
-        /*(shipments = getRegionList(regions.getSelectedItem().toString());
-        if (shipments == null) {
+        /*(deliveries = getRegionList(regions.getSelectedItem().toString());
+        if (deliveries == null) {
             Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.no_shipments_in_region), Toast.LENGTH_LONG).show();
+                    getResources().getString(R.string.no_deliveries_in_region), Toast.LENGTH_LONG).show();
         } else {
             //subRegionsList = new ArrayList<String>();
-            //subRegionsList.add(getResources().getString(R.string.all_shipments));
-            //for (Shipment shipment : shipments) {
-            //    subRegionsList.add(shipment.getSubArea());
+            //subRegionsList.add(getResources().getString(R.string.all_deliveries));
+            //for (Delivery delivery : deliveries) {
+            //    subRegionsList.add(delivery.getSubArea());
             //}
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, subRegionsList);
@@ -143,16 +143,16 @@ public class RegionActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                /* String selectedRegion = (String) parentView.getItemAtPosition(position);
-                shipments = getRegionList(regions.getSelectedItem().toString());
+                deliveries = getRegionList(regions.getSelectedItem().toString());
                 subRegionsList = new ArrayList<String>();
-                subRegionsList.add( getResources().getString(R.string.all_shipments));
-                if (shipments == null) {
+                subRegionsList.add( getResources().getString(R.string.all_deliveries));
+                if (deliveries == null) {
                     Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.no_shipments_in_region), Toast.LENGTH_LONG).show();
+                            getResources().getString(R.string.no_deliveries_in_region), Toast.LENGTH_LONG).show();
                 } else {
-                    for (Shipment shipment : shipments) {
-                        if(!subRegionsList.contains(shipment.getSubArea()))
-                            subRegionsList.add(shipment.getSubArea());
+                    for (Delivery delivery : deliveries) {
+                        if(!subRegionsList.contains(delivery.getSubArea()))
+                            subRegionsList.add(delivery.getSubArea());
                     }
                 }
                 ArrayAdapter<String> updatedAdapter = new ArrayAdapter<String>(RegionActivity.this,
@@ -229,7 +229,7 @@ public class RegionActivity extends AppCompatActivity {
                                                 }
                                             }
 
-                                                        //This should be as shipment.
+                                                        //This should be as delivery.
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
@@ -251,22 +251,22 @@ public class RegionActivity extends AppCompatActivity {
 
                 // add it to the RequestQueue  
                 queue.add(getRequest);
-                /*shipments = getRegionList(regions.getSelectedItem().toString());
-                if (shipments == null) {
+                /*deliveries = getRegionList(regions.getSelectedItem().toString());
+                if (deliveries == null) {
                     Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.no_shipments_in_region), Toast.LENGTH_LONG).show();
+                            getResources().getString(R.string.no_deliveries_in_region), Toast.LENGTH_LONG).show();
                 }
                 else {
-                    if (subRegions.getSelectedItem() != getResources().getString(R.string.all_shipments)) {
-                        for (Shipment shipment : shipments) {
-                            if (!shipment.getSubArea().equals(subRegions.getSelectedItem())) {
-                                shipments.remove(shipment);
+                    if (subRegions.getSelectedItem() != getResources().getString(R.string.all_deliveries)) {
+                        for (Delivery delivery : deliveries) {
+                            if (!delivery.getSubArea().equals(subRegions.getSelectedItem())) {
+                                deliveries.remove(delivery);
                             }
                         }
                     }
                  Launch User activity
-                Intent intent = new Intent(getApplicationContext(), ViewShipmentsActivity.class);
-                intent.putExtra("shipments", shipments);
+                Intent intent = new Intent(getApplicationContext(), ViewDeliveriesActivity.class);
+                intent.putExtra("deliveries", deliveries);
                 startActivity(intent);
                 finish();
                 }*/

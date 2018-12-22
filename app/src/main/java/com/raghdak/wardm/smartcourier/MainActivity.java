@@ -27,11 +27,11 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private Button btnLogOut;
-    private Button btnNewShipment;
+    private Button btnNewDelivery;
     private Button btnViewShipemtns;
-    private Button btnViewUrgentShipments;
-    private TextView allShipmentsTextView;
-    private TextView deliveredShipmentsTextView;
+    private Button btnViewUrgentDeliveries;
+    private TextView allDeliveriesTextView;
+    private TextView deliveredDeliveriesTextView;
     private DatabaseHelper databaseHelper;
     List<Address> addressesList;
 
@@ -40,14 +40,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnLogOut = (Button) findViewById(R.id.btnLogOut);
-        //btnNewShipment = (Button) findViewById(R.id.btnNewShipment);
-        btnViewShipemtns = (Button) findViewById(R.id.btnViewShipments);
-        //btnViewUrgentShipments = (Button) findViewById(R.id.btnViewUrgentShipments);
-        //allShipmentsTextView = (TextView) findViewById(R.id.allShipmentsTextView);
-        deliveredShipmentsTextView = (TextView) findViewById(R.id.deliveredShipmentsTextView);
+        //btnNewDelivery = (Button) findViewById(R.id.btnNewDelivery);
+        btnViewShipemtns = (Button) findViewById(R.id.btnViewDeliveries);
+        //btnViewUrgentDeliveries = (Button) findViewById(R.id.btnViewUrgentDeliveries);
+        //allDeliveriesTextView = (TextView) findViewById(R.id.allDeliveriesTextView);
+        deliveredDeliveriesTextView = (TextView) findViewById(R.id.deliveredDeliveriesTextView);
         //databaseHelper = DatabaseHelper.getInstance(this);
-       // allShipmentsTextView.setText("" + databaseHelper.countAllShipments());
-        //deliveredShipmentsTextView.setText("" + databaseHelper.countDeliveredShipments());
+       // allDeliveriesTextView.setText("" + databaseHelper.countAllDeliveries());
+        //deliveredDeliveriesTextView.setText("" + databaseHelper.countDeliveredDeliveries());
         //--------------------------------------------------------------------
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             //--------------------------------------------------------------------
@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //----------------------------------------------------------------
-        /*btnNewShipment.setOnClickListener(new View.OnClickListener() {
+        /*btnNewDelivery.setOnClickListener(new View.OnClickListener() {
             //--------------------------------------------------------------------
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), NewShipmentActivity.class);
+                Intent i = new Intent(getApplicationContext(), NewDeliveryActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*btnViewUrgentShipments.setOnClickListener(new View.OnClickListener() {
+        /*btnViewUrgentDeliveries.setOnClickListener(new View.OnClickListener() {
             //--------------------------------------------------------------------
             @Override
             public void onClick(View view) {

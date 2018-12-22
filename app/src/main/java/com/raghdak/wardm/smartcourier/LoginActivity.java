@@ -20,7 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.raghdak.wardm.smartcourier.SQL.DatabaseHelper;
 import com.raghdak.wardm.smartcourier.model.Courier;
-import com.raghdak.wardm.smartcourier.model.Shipment;
+import com.raghdak.wardm.smartcourier.model.Delivery;
 import com.raghdak.wardm.smartcourier.model.User;
 import com.raghdak.wardm.smartcourier.protocol.response.LoginResponse;
 import com.android.volley.toolbox.Volley;

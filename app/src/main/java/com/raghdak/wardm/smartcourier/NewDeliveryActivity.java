@@ -27,7 +27,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.raghdak.wardm.smartcourier.SQL.DatabaseHelper;
 import com.raghdak.wardm.smartcourier.model.Delivery;
-import com.raghdak.wardm.smartcourier.model.Shipment;
+import com.raghdak.wardm.smartcourier.model.Delivery;
 import com.raghdak.wardm.smartcourier.tools.AppSingleton;
 
 import org.json.JSONException;

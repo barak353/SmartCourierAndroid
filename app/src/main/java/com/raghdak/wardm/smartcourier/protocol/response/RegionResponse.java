@@ -5,14 +5,15 @@ package com.raghdak.wardm.smartcourier.protocol.response;
  */
 
 
-import com.raghdak.wardm.smartcourier.model.Shipment;
+import com.raghdak.wardm.smartcourier.model.Delivery;
+import com.raghdak.wardm.smartcourier.model.Delivery;
 
 import java.util.ArrayList;
 
 
 public class RegionResponse {
     String text;
-    private ArrayList<Shipment> shipments;
+    private ArrayList<Delivery> deliveries;
     public RegionResponse(String text) {
         super();
         this.text = text;
@@ -23,14 +24,14 @@ public class RegionResponse {
     public void setText(String text) {
         this.text = text;
     }
-    public ArrayList<Shipment> getShipments() {
-        return shipments;
+    public ArrayList<Delivery> getDeliveries() {
+        return deliveries;
     }
-    public void setShipments(ArrayList<Shipment> shipments) {
-        this.shipments = shipments;
+    public void setDeliveries(ArrayList<Delivery> deliveries) {
+        this.deliveries = deliveries;
     }
-    public static RegionResponse NO_Shipment() {
-        return new RegionResponse("No shipments found!");
+    public static RegionResponse NO_Delivery() {
+        return new RegionResponse("No deliveries found!");
     }
     public static RegionResponse OK() {
         return new RegionResponse("OK");
@@ -40,7 +41,7 @@ public class RegionResponse {
     public String toString() {
         return "RegionResponse{" +
                 "text='" + text + '\'' +
-                ", shipments=" + shipments.toString() +
+                ", deliveries=" + deliveries.toString() +
                 '}';
     }
 }

@@ -35,7 +35,7 @@ import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.raghdak.wardm.smartcourier.SQL.DatabaseHelper;
-import com.raghdak.wardm.smartcourier.model.Shipment;
+import com.raghdak.wardm.smartcourier.model.Delivery;
 import com.raghdak.wardm.smartcourier.tools.AppSingleton;
 import com.raghdak.wardm.smartcourier.tools.DataParser;
 
@@ -55,16 +55,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private GoogleMap mMap;
     private Button btnGetTrack;
     private DatabaseHelper databaseHelper;
-    private ArrayList<Shipment> allShipments;
-    private ArrayList<Shipment> urgentShipments;
-    private ArrayList<Shipment> regularShipments;
+    private ArrayList<Delivery> allDeliveries;
+    private ArrayList<Delivery> urgentDeliveries;
+    private ArrayList<Delivery> regularDeliveries;
     private ArrayList<Marker> clickedMarkers;
     private ArrayList<Marker> urgentMarkers;
     private double firstLat;
     private double firstLng;
-    private HashMap<Marker,Shipment> markerShipmentHashMap;
+    private HashMap<Marker,Delivery> markerDeliveryHashMap;
     private ArrayList<LatLng> latLngArray;
-    private ArrayList<Shipment> selectedShipments;
+    private ArrayList<Delivery> selectedDeliveries;
     private double minLat;
     private double maxLat;
     private double minLng;
@@ -77,36 +77,36 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         databaseHelper = DatabaseHelper.getInstance(this);
-        allShipments = databaseHelper.getAllShipments();
-        urgentShipments = new ArrayList<Shipment>();
-        //latLngArray = getLatLngArrayFromShipments(urgentShipments);
-        regularShipments = new ArrayList<Shipment>();
+        allDeliveries = databaseHelper.getAllDeliveries();
+        urgentDeliveries = new ArrayList<Delivery>();
+        //latLngArray = getLatLngArrayFromDeliveries(urgentDeliveries);
+        regularDeliveries = new ArrayList<Delivery>();
         clickedMarkers = new ArrayList<Marker>();
         urgentMarkers = new ArrayList<Marker>();
-        selectedShipments = urgentShipments;
-        markerShipmentHashMap = new HashMap<Marker,Shipment>();
-        for(Shipment shipment : allShipments){
-            if(shipment.getUrgent().equals("1")){
-                urgentShipments.add(shipment);
+        selectedDeliveries = urgentDeliveries;
+        markerDeliveryHashMap = new HashMap<Marker,Delivery>();
+        for(Delivery delivery : allDeliveries){
+            if(delivery.getUrgent().equals("1")){
+                urgentDeliveries.add(delivery);
             }
             else{
-                regularShipments.add(shipment);
+                regularDeliveries.add(delivery);
             }
         }
-        maxLat = minLat = urgentShipments.get(0).getLat();
-        maxLng = minLng = urgentShipments.get(0).getLng();
-        for(Shipment shipment: urgentShipments){
-            if(shipment.getLng() < minLng){
-                minLng = shipment.getLng();
+        maxLat = minLat = urgentDeliveries.get(0).getLatitude();
+        maxLng = minLng = urgentDeliveries.get(0).getLongitude();
+        for(Delivery delivery: urgentDeliveries){
+            if(delivery.getLatitude() < minLng){
+                minLng = delivery.getLongitude();
             }
-            if(shipment.getLng() > maxLng){
-                maxLng = shipment.getLng();
+            if(delivery.getLongitude() > maxLng){
+                maxLng = delivery.getLongitude();
             }
-            if(shipment.getLat() < minLat){
-                minLat = shipment.getLat();
+            if(delivery.getLatitude() < minLat){
+                minLat = delivery.getLatitude();
             }
-            if(shipment.getLat() > maxLat){
-                maxLat = shipment.getLat();
+            if(delivery.getLatitude() > maxLat){
+                maxLat = delivery.getLatitude();
             }
         }
         minLng -= 0.1;
@@ -120,7 +120,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             public void onClick(View view) {
                 // Launch User activity
                 Intent intent = new Intent(getApplicationContext(), ViewDeliveriesActivity.class);
-                intent.putExtra("shipments", selectedShipments);
+                intent.putExtra("deliveries", selectedDeliveries);
                 startActivity(intent);
 
             }
@@ -147,28 +147,28 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
-        LatLng shipmentLatLng = new LatLng(34,32);
+        LatLng deliveryLatLng = new LatLng(34,32);
         // Add a marker in Sydney and move the camera
-        for(Shipment shipment : urgentShipments){
-            shipmentLatLng = new LatLng(shipment.getLat(),shipment.getLng());
-            Marker newMarker =mMap.addMarker(new MarkerOptions().position(shipmentLatLng));
+        for(Delivery delivery : urgentDeliveries){
+            deliveryLatLng = new LatLng(delivery.getLatitude(),delivery.getLongitude());
+            Marker newMarker =mMap.addMarker(new MarkerOptions().position(deliveryLatLng));
             urgentMarkers.add(newMarker);
-            markerShipmentHashMap.put(newMarker,shipment);
+            markerDeliveryHashMap.put(newMarker,delivery);
         }
-        for(Shipment shipment : regularShipments){
-            if(isInBorder(shipment)) {
-                shipmentLatLng = new LatLng(shipment.getLat(), shipment.getLng());
-                Marker newMarker = mMap.addMarker(new MarkerOptions().position(shipmentLatLng).alpha((float) 0.4));
-                markerShipmentHashMap.put(newMarker, shipment);
+        for(Delivery delivery : regularDeliveries){
+            if(isInBorder(delivery)) {
+                deliveryLatLng = new LatLng(delivery.getLatitude(), delivery.getLongitude());
+                Marker newMarker = mMap.addMarker(new MarkerOptions().position(deliveryLatLng).alpha((float) 0.4));
+                markerDeliveryHashMap.put(newMarker, delivery);
             }
         }
         latLngArray = new ArrayList<>();
         //Execute Directions API request
-        orderShipments(urgentShipments);
+        orderDeliveries(urgentDeliveries);
 
         PolylineOptions lineOptions = new PolylineOptions().addAll(latLngArray).color(Color.BLUE).width(8);
         mMap.addPolyline(lineOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(shipmentLatLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(deliveryLatLng));
 
     }
 
@@ -178,19 +178,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             if(marker.getAlpha() == 1){
                 marker.setAlpha((float)0.4);
                 clickedMarkers.remove(marker);
-                selectedShipments.remove(markerShipmentHashMap.get(marker));
+                selectedDeliveries.remove(markerDeliveryHashMap.get(marker));
             }
             else{
                 marker.setAlpha((float)1);
                 clickedMarkers.add(marker);
-                selectedShipments.add(markerShipmentHashMap.get(marker));
+                selectedDeliveries.add(markerDeliveryHashMap.get(marker));
             }
         }
         return true;
     }
 
 
-    private void orderShipments(final ArrayList<Shipment> shipmentsToOrder) {
+    private void orderDeliveries(final ArrayList<Delivery> deliveriesToOrder) {
         String URL_FOR_GOOGLE_DIRECTIONS = "https://maps.googleapis.com/maps/api/directions/json?origin=";
         LocationManager locationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
@@ -199,8 +199,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         firstLat = location.getLatitude();
         firstLng = location.getLongitude();
         URL_FOR_GOOGLE_DIRECTIONS += firstLat + "," + firstLng + "&destination=" + firstLat + "," + firstLng + "&waypoints=optimize:true";
-        for (Shipment shipment : shipmentsToOrder) {
-            URL_FOR_GOOGLE_DIRECTIONS += "|" + shipment.getLat() + "," + shipment.getLng();
+        for (Delivery delivery : deliveriesToOrder) {
+            URL_FOR_GOOGLE_DIRECTIONS += "|" + delivery.getLatitude() + "," + delivery.getLongitude();
         }
         URL_FOR_GOOGLE_DIRECTIONS += "&key=" + getText(R.string.google_maps_key).toString();
         //get the sub-region
@@ -273,8 +273,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     }
 
-    boolean isInBorder(Shipment shipment){
-        if(shipment.getLng() < minLng || shipment.getLng() > maxLng || shipment.getLat() < minLat || shipment.getLat() > maxLat)
+    boolean isInBorder(Delivery delivery){
+        if(delivery.getLongitude() < minLng || delivery.getLongitude() > maxLng || delivery.getLatitude() < minLat || delivery.getLatitude() > maxLat)
             return false;
         else
             return true;
