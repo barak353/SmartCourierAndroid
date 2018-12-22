@@ -63,13 +63,13 @@ public class ViewDeliveriesActivity extends AppCompatActivity {
         btnBack = (Button) findViewById(R.id.btnBack);
         btnFinish = (Button) findViewById(R.id.btnFinish);
         Bundle bundle = getIntent().getExtras();
-        deliveriesToOrder = (ArrayList<Delivery>) bundle.get("deliveries");
+        deliveriesToOrder = (ArrayList<Delivery>) bundle.get("deliveriesToDeliver");
         orderDeliveries(deliveriesToOrder);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                Intent i = new Intent(getApplicationContext(), RegionActivity.class);
                 startActivity(i);
                 finish();
             }
