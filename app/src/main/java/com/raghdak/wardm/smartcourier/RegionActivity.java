@@ -52,8 +52,7 @@ public class RegionActivity extends AppCompatActivity {
     ArrayList<String> regionsNames = new ArrayList<String>();
     private Context context = this;
     private DatabaseHelper databaseHelper;
-    private ArrayList<Delivery> deliveries = new ArrayList<Delivery>();;
-    //private ArrayList<Delivery> deliveries = new ArrayList<Delivery>();;
+    private ArrayList<Delivery> deliveriesToDeliver = new ArrayList<Delivery>();;
     private ArrayList<String> subRegionsList;
 
 
@@ -75,6 +74,7 @@ public class RegionActivity extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         //JSONArray jArray = (JSONArray)response;
                         if(response.length() > 0) {
+                            regionsNames.add("בחר אזור");
                             for (int countItem = 0; countItem < response.length(); countItem++) {
                                 try {
                                     JSONObject region = response.getJSONObject(countItem);
@@ -82,7 +82,6 @@ public class RegionActivity extends AppCompatActivity {
                                     Region regionItem = gson.fromJson(region.toString(), Region.class);
                                     if (regionItem != null)
                                         regions.add(regionItem);
-                                    regionsNames.add("בחר אזור");
                                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, regionsNames);
                                     spinner.setAdapter(adapter);
                                 } catch (JSONException e) {
@@ -190,52 +189,50 @@ public class RegionActivity extends AppCompatActivity {
                     }
                 if(choosedRegionId == "")
                     return;
-                User user = User.currentUser;
+                //Get couriers' deliveries in region.
                 RequestQueue queue = Volley.newRequestQueue(RegionActivity.this); // this = context
-                final String url = "http://" + User.ip + ":8080/region/getDeliveries/" + choosedRegionId + '/' + user.getId();
-
-
-
-
+                User user = User.currentUser;
+                final String url = "http://" + User.ip + ":8080/region/getDeliveries/" + choosedRegionId + '/' + user.getId() + "/toDeliver";
                 // prepare the Request
                 JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                         new Response.Listener<JSONArray>()
                         {
                             @Override
                             public void onResponse(JSONArray response) {
-                                //JSONArray jArray = (JSONArray)response;
-                                if(response.length() > 0)
-                                    for(int countItem = 0; countItem < response.length(); countItem++)
-                                    {
+                                //Get courier deliveries in region
+                                if(response.length() > 0) {
+                                    for (int index = 0; index < response.length(); index++) {
                                         try {
-                                            JSONObject delivery = response.getJSONObject(countItem);
-                                            Gson gson=new Gson();
-                                            Delivery deliveryItem = gson.fromJson(delivery.toString(), Delivery.class);
-                                            if(deliveryItem != null)
-                                                deliveries.add(deliveryItem);
-                                            if(deliveries.size() == 0){
-                                                Context context = getApplicationContext();
-                                                CharSequence text = "אין שליחויות להציג באזור זה";
-                                                int duration = Toast.LENGTH_SHORT;
-                                                Toast toast = Toast.makeText(context, text, duration);
-                                                toast.show();
-                                            }else{
-                                                //deliveries.clear();
-                                                Intent intent = new Intent(getApplicationContext(), ViewDeliveriesActivity.class);
-                                                if(deliveries != null) {
-                                                    intent.putExtra("deliveries", deliveries);
-                                                    startActivity(intent);
-                                                    finish();
-                                                }
-                                            }
-
-                                                        //This should be as delivery.
+                                            JSONObject responseJSON = response.getJSONObject(index);
+                                            //change delivery's type to 2.
+                                            //////////////////////////////
+                                            //insert the delivery to the deliveries list.
+                                            Gson gson = new Gson();
+                                            Delivery deliveryToDeliver = gson.fromJson(responseJSON.toString(), Delivery.class);
+                                            if (deliveryToDeliver != null)
+                                                deliveriesToDeliver.add(deliveryToDeliver);
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
                                     }
-
-                                Log.d("Response", response.toString());
+                                }
+                                //Go to next screen or show error message.
+                                if(deliveriesToDeliver.size() == 0){
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "אין שליחויות להציג באזור זה";
+                                    int duration = Toast.LENGTH_SHORT;
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+                                }else{
+                                    //deliveries.clear();
+                                    Intent intent = new Intent(getApplicationContext(), ViewDeliveriesActivity.class);
+                                    if(deliveriesToDeliver != null) {
+                                        intent.putExtra("deliveriesToDeliver", deliveriesToDeliver);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }
+                                Log.d("Response", deliveriesToDeliver.toString());
                             }
                         },
                         new Response.ErrorListener()
