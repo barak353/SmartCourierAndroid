@@ -44,6 +44,7 @@ public class ViewDeliveriesActivity extends AppCompatActivity {
     private ListView listView;
     private Button btnNavigate;
     private Button btnFinish;
+    private Button btnBack;
     private double firstLat;
     private double firstLng;
     List<String> addresses;
@@ -59,10 +60,21 @@ public class ViewDeliveriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_deliveries);
         listView = (ListView) findViewById(R.id.list);
         btnNavigate = (Button) findViewById(R.id.btnNavigate);
+        btnBack = (Button) findViewById(R.id.btnBack);
         btnFinish = (Button) findViewById(R.id.btnFinish);
         Bundle bundle = getIntent().getExtras();
         deliveriesToOrder = (ArrayList<Delivery>) bundle.get("deliveries");
         orderDeliveries(deliveriesToOrder);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+                finish();
+            }
+
+        });
 
         btnNavigate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +84,11 @@ public class ViewDeliveriesActivity extends AppCompatActivity {
                 //String uri = "waze://ul?q=66%20Acacia%20Avenue";
                 Intent i = new Intent(getApplicationContext(), ReportActivity.class);
                 i.putExtra("deliveryID", deliveries.get(0).getId());
-                deliveries.remove(0);
+                Delivery toType3 = deliveries.remove(0);
+                //Change the removed delivery to type 3
+
+
+                //Go to next screen.
                 if (deliveries.size() == 0)
                     btnNavigate.setEnabled(false);
                 addresses = new ArrayList<String>();

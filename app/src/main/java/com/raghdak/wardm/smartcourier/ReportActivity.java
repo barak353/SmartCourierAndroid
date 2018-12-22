@@ -319,6 +319,7 @@ public class ReportActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Generate report
                 String signed = "0";
                 String pasted = "0";
                 String privateH = "0";
