@@ -21,12 +21,16 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.places.Place;
 import com.raghdak.wardm.smartcourier.model.Delivery;
 import com.raghdak.wardm.smartcourier.model.Delivery;
+import com.raghdak.wardm.smartcourier.model.User;
 import com.raghdak.wardm.smartcourier.tools.AppSingleton;
 
 import org.json.JSONArray;
@@ -86,6 +90,35 @@ public class ViewDeliveriesActivity extends AppCompatActivity {
                 i.putExtra("deliveryID", deliveries.get(0).getId());
                 Delivery toType3 = deliveries.remove(0);
                 //Change the removed delivery to type 3
+
+
+                Integer type = 3;
+                RequestQueue queue = Volley.newRequestQueue(ViewDeliveriesActivity.this); // this = context
+                final String url = "http://" + User.ip + ":8080/delivery/updateType/" + toType3.getId() + '/' + type;
+                // prepare the Request
+                JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONArray>()
+                        {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                Log.d("success","Changed to type 3");
+                            }
+                        },
+                        new Response.ErrorListener()
+                        {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("Error.Response", error.toString());
+                            }
+                        }
+                );
+
+
+
+                // add it to the RequestQueue  
+                queue.add(getRequest);
+
+
 
 
                 //Go to next screen.
