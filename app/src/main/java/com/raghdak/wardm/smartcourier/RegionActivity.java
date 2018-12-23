@@ -64,7 +64,7 @@ public class RegionActivity extends AppCompatActivity {
         //databaseHelper = DatabaseHelper.getInstance(this);
         User user = User.currentUser;
         RequestQueue queue = Volley.newRequestQueue(this); // this = context
-        final String url = "http://" + User.ip + ":8080/region/getRegions/" + user.getId();
+        final String url = "http://" + User.ip + "/region/getRegions/" + user.getId();
 
         // prepare the Request
         JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -192,7 +192,7 @@ public class RegionActivity extends AppCompatActivity {
                 //Get couriers' deliveries in region.
                 RequestQueue queue = Volley.newRequestQueue(RegionActivity.this); // this = context
                 User user = User.currentUser;
-                final String url = "http://" + User.ip + ":8080/region/getDeliveries/" + choosedRegionId + '/' + user.getId() + "/toDeliver";
+                final String url = "http://" + User.ip + "/region/getDeliveries/" + choosedRegionId + '/' + user.getId() + "/toDeliver";
                 // prepare the Request
                 JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                         new Response.Listener<JSONArray>()

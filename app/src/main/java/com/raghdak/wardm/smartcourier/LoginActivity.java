@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Logging you in...");
         showDialog();
         RequestQueue queue = Volley.newRequestQueue(this); // this = context
-        final String url = "http://" + User.ip + ":8080/app/courier/authenticate";
+        final String url = "http://" + User.ip + "/app/courier/authenticate";
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("username", email);
         params.put("password", password);

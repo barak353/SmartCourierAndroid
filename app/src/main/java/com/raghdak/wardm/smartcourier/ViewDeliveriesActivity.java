@@ -94,7 +94,7 @@ public class ViewDeliveriesActivity extends AppCompatActivity {
 
                 Integer type = 3;
                 RequestQueue queue = Volley.newRequestQueue(ViewDeliveriesActivity.this); // this = context
-                final String url = "http://" + User.ip + ":8080/delivery/updateType/" + toType3.getId() + '/' + type;
+                final String url = "http://" + User.ip + "/delivery/updateType/" + toType3.getId() + '/' + type;
                 // prepare the Request
                 JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                         new Response.Listener<JSONArray>()
