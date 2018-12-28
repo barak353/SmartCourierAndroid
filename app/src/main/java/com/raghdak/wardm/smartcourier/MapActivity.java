@@ -129,6 +129,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             @Override
             public void onClick(View view) {
                 // Launch User activity
+                ViewDeliveriesActivity.setIsUrgentScreen(true);
                 Intent intent = new Intent(getApplicationContext(), ViewDeliveriesActivity.class);
                 intent.putExtra("deliveriesToDeliver", selectedDeliveries);
                 startActivity(intent);

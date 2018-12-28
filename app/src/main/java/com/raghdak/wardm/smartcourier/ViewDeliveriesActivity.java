@@ -51,11 +51,16 @@ public class ViewDeliveriesActivity extends AppCompatActivity {
     private Button btnBack;
     private double firstLat;
     private double firstLng;
+    static private boolean isUrgentScreen = false;
     List<String> addresses;
     ArrayList<Delivery> deliveries;
     ArrayList<Delivery> deliveriesToOrder;
     protected static final int PERMISSION_ACCESS_COARSE_LOCATION = 111;
     LocationManager mLocationManager;
+
+    static public void setIsUrgentScreen(boolean isUrgentScreen){
+        ViewDeliveriesActivity.isUrgentScreen = isUrgentScreen;
+    }
 
 
     @Override
@@ -73,7 +78,11 @@ public class ViewDeliveriesActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), RegionActivity.class);
+                Intent i;
+                if(isUrgentScreen)
+                    i = new Intent(getApplicationContext(), MainActivity.class);
+                else
+                    i = new Intent(getApplicationContext(), RegionActivity.class);
                 startActivity(i);
                 finish();
             }

@@ -224,6 +224,7 @@ public class RegionActivity extends AppCompatActivity {
                                     toast.show();
                                 }else{
                                     //deliveries.clear();
+                                    ViewDeliveriesActivity.setIsUrgentScreen(false);
                                     Intent intent = new Intent(getApplicationContext(), ViewDeliveriesActivity.class);
                                     if(deliveriesToDeliver != null) {
                                         intent.putExtra("deliveriesToDeliver", deliveriesToDeliver);
