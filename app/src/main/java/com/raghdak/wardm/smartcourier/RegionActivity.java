@@ -55,7 +55,6 @@ public class RegionActivity extends AppCompatActivity {
     private ArrayList<Delivery> deliveriesToDeliver = new ArrayList<Delivery>();;
     private ArrayList<String> subRegionsList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

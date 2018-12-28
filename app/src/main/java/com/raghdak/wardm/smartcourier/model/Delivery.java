@@ -11,7 +11,7 @@ import java.util.Date;
 public class Delivery implements Serializable {
     private Long id;
     private String name;
-    private Integer urgent;
+    private Integer isUrgent;
     private Double latitude;
     private Double longitude;
     private Integer type;
@@ -52,10 +52,10 @@ public class Delivery implements Serializable {
         this.pastedOnDoor = pastedOnDoor;
     }
 
-    public Delivery(double latitude, double longitude, Integer urgent, String claimant, String name, String phone, String box, Date dueDate, String courierID) {
+    public Delivery(double latitude, double longitude, Integer isUrgent, String claimant, String name, String phone, String box, Date dueDate, String courierID) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.urgent = urgent;
+        this.isUrgent = isUrgent;
         this.claimant = claimant;
         this.name = name;
         this.phone = phone;
@@ -71,7 +71,7 @@ public class Delivery implements Serializable {
                 ", lat='" + latitude + '\'' +
                 ", lng='" + longitude + '\'' +
                 ", status='" + status + '\'' +
-                ", urgent='" + urgent + '\'' +
+                ", isUrgent='" + isUrgent + '\'' +
                 ", claimant='" + claimant + '\'' +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
@@ -123,12 +123,12 @@ public class Delivery implements Serializable {
         this.status = status;
     }
 
-    public Integer getUrgent() {
-        return urgent;
+    public Integer getIsUrgent() {
+        return isUrgent;
     }
 
-    public void setUrgent(Integer urgent) {
-        this.urgent = urgent;
+    public void setisUrgent(Integer isUrgent) {
+        this.isUrgent = isUrgent;
     }
 
     public String getClaimant() {

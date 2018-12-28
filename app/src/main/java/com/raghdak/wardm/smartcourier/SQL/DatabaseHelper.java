@@ -214,7 +214,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_DELIVERY_ID, delivery.getId());
         values.put(COLUMN_DELIVERY_LAT, delivery.getLatitude());
         values.put(COLUMN_DELIVERY_LNG, delivery.getLongitude());
-        values.put(COLUMN_DELIVERY_URGENT, delivery.getUrgent());
+        values.put(COLUMN_DELIVERY_URGENT, delivery.getIsUrgent());
         values.put(COLUMN_DELIVERY_CLAIMANT, delivery.getClaimant());
         values.put(COLUMN_DELIVERY_NAME, delivery.getName());
         values.put(COLUMN_DELIVERY_PHONE, delivery.getPhone());

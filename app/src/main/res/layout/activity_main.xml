@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--<Button
+    <Button
         android:id="@+id/btnViewUrgentDeliveries"
         android:layout_width="238dp"
         android:layout_height="66dp"
@@ -30,7 +30,7 @@
         android:text="@string/viewsUrgentDelivery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnViewDeliveries" />-->
+        app:layout_constraintTop_toBottomOf="@+id/btnViewDeliveries" />
 
     <Button
         android:id="@+id/btnLogOut"

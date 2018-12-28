@@ -19,9 +19,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -31,11 +34,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.gson.Gson;
 import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
 import com.raghdak.wardm.smartcourier.SQL.DatabaseHelper;
 import com.raghdak.wardm.smartcourier.model.Delivery;
+import com.raghdak.wardm.smartcourier.model.Region;
+import com.raghdak.wardm.smartcourier.model.User;
 import com.raghdak.wardm.smartcourier.tools.AppSingleton;
 import com.raghdak.wardm.smartcourier.tools.DataParser;
 
@@ -55,14 +61,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private GoogleMap mMap;
     private Button btnGetTrack;
     private DatabaseHelper databaseHelper;
-    private ArrayList<Delivery> allDeliveries;
+    static private ArrayList<Delivery> allDeliveries;
     private ArrayList<Delivery> urgentDeliveries;
     private ArrayList<Delivery> regularDeliveries;
     private ArrayList<Marker> clickedMarkers;
     private ArrayList<Marker> urgentMarkers;
     private double firstLat;
     private double firstLng;
-    private HashMap<Marker,Delivery> markerDeliveryHashMap;
+    private HashMap<Marker, Delivery> markerDeliveryHashMap;
     private ArrayList<LatLng> latLngArray;
     private ArrayList<Delivery> selectedDeliveries;
     private double minLat;
@@ -71,13 +77,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private double maxLng;
     LocationManager mLocationManager;
 
+    static public void setAllDeliveries(ArrayList<Delivery> allDeliveries)
+    {
+        MapActivity.allDeliveries = allDeliveries;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        databaseHelper = DatabaseHelper.getInstance(this);
-        allDeliveries = databaseHelper.getAllDeliveries();
+        //databaseHelper = DatabaseHelper.getInstance(this);
         urgentDeliveries = new ArrayList<Delivery>();
         //latLngArray = getLatLngArrayFromDeliveries(urgentDeliveries);
         regularDeliveries = new ArrayList<Delivery>();
@@ -86,7 +96,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         selectedDeliveries = urgentDeliveries;
         markerDeliveryHashMap = new HashMap<Marker,Delivery>();
         for(Delivery delivery : allDeliveries){
-            if(delivery.getUrgent().equals("1")){
+            if(delivery.getIsUrgent() == 1){
                 urgentDeliveries.add(delivery);
             }
             else{
@@ -120,7 +130,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             public void onClick(View view) {
                 // Launch User activity
                 Intent intent = new Intent(getApplicationContext(), ViewDeliveriesActivity.class);
-                intent.putExtra("deliveries", selectedDeliveries);
+                intent.putExtra("deliveriesToDeliver", selectedDeliveries);
                 startActivity(intent);
 
             }
@@ -174,7 +184,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        if(!urgentMarkers.contains(marker)){
+        //if(!urgentMarkers.contains(marker)){
             if(marker.getAlpha() == 1){
                 marker.setAlpha((float)0.4);
                 clickedMarkers.remove(marker);
@@ -185,7 +195,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 clickedMarkers.add(marker);
                 selectedDeliveries.add(markerDeliveryHashMap.get(marker));
             }
-        }
+        //}
         return true;
     }
 
