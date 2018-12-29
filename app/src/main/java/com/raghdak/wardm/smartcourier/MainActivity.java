@@ -1,5 +1,6 @@
 package com.raghdak.wardm.smartcourier;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -42,21 +43,47 @@ public class MainActivity extends AppCompatActivity {
     private TextView deliveredDeliveriesTextView;
     private DatabaseHelper databaseHelper;
     private ArrayList<Delivery> allDeliveries = new ArrayList<Delivery>();
-
     List<Address> addressesList;
+
+    private void countAllDeliveries()
+    {
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this); // this = context
+        User user = User.currentUser;
+        final String url = "http://" + User.ip + "/courier/getDeliveries/" + user.getId() + "/toDeliver";
+        // prepare the Request
+        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        allDeliveriesTextView.setText("" + response.length());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                        allDeliveriesTextView.setText("" + -1);
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        countAllDeliveries();
         btnLogOut = (Button) findViewById(R.id.btnLogOut);
         //btnNewDelivery = (Button) findViewById(R.id.btnNewDelivery);
         btnViewShipemtns = (Button) findViewById(R.id.btnViewDeliveries);
         btnViewUrgentDeliveries = (Button) findViewById(R.id.btnViewUrgentDeliveries);
-        //allDeliveriesTextView = (TextView) findViewById(R.id.allDeliveriesTextView);
+        allDeliveriesTextView = (TextView) findViewById(R.id.allDeliveriesTextView);
         deliveredDeliveriesTextView = (TextView) findViewById(R.id.deliveredDeliveriesTextView);
+
         //databaseHelper = DatabaseHelper.getInstance(this);
-       // allDeliveriesTextView.setText("" + databaseHelper.countAllDeliveries());
         //deliveredDeliveriesTextView.setText("" + databaseHelper.countDeliveredDeliveries());
         //--------------------------------------------------------------------
         btnLogOut.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 RequestQueue queue = Volley.newRequestQueue(MainActivity.this); // this = context
                 User user = User.currentUser;
-                final String url = "http://" + User.ip + "/courier/getDeliveries/" + user.getId();
+                final String url = "http://" + User.ip + "/courier/getDeliveries/" + user.getId() + "/toDeliver";
                 // prepare the Request
                 JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                         new Response.Listener<JSONArray>() {

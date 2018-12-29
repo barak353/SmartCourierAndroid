@@ -69,7 +69,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
-    <!--<TextView
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="148dp"
         android:layout_height="35dp"
@@ -86,7 +86,7 @@
         android:layout_marginStart="60dp"
         android:layout_marginTop="100dp"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/btnViewUrgentDeliveries" />-->
+        app:layout_constraintTop_toBottomOf="@+id/btnViewUrgentDeliveries" />
 
     <TextView
         android:id="@+id/textView4"

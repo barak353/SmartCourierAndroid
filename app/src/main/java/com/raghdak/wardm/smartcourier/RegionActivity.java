@@ -188,7 +188,7 @@ public class RegionActivity extends AppCompatActivity {
                     }
                 if(choosedRegionId == "")
                     return;
-                //Get couriers' deliveries in region.
+                //Get all couriers' deliveries.
                 RequestQueue queue = Volley.newRequestQueue(RegionActivity.this); // this = context
                 User user = User.currentUser;
                 final String url = "http://" + User.ip + "/region/getDeliveries/" + choosedRegionId + '/' + user.getId() + "/toDeliver";
