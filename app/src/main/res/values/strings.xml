@@ -48,7 +48,7 @@
 
     <string name="no_deliveries_in_region">לא נמצאו כתובות באיזור זה</string>
     <string name="all_deliveries">הכל</string>
-    <string name="all_the_deliveries">כל המשלוחים</string>
+    <string name="all_the_deliveries">מספר משלוחים הנדרשים למסירה:</string>
     <string name="delivered_deliveries">נמסרו</string>
 
     <string-array name="region_arrays">

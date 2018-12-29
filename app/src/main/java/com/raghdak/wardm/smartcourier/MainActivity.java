@@ -71,11 +71,39 @@ public class MainActivity extends AppCompatActivity {
         queue.add(getRequest);
     }
 
+    private void countDeliveredDeliveries()
+    {
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this); // this = context
+        User user = User.currentUser;
+        final String url = "http://" + User.ip + "/courier/getDeliveries/" + user.getId() + "/delivered";
+        // prepare the Request
+        JsonArrayRequest getRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        deliveredDeliveriesTextView.setText("" + response.length());
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+                        deliveredDeliveriesTextView.setText("" + -1);
+
+                    }
+                }
+        );
+        // add it to the RequestQueue
+        queue.add(getRequest);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         countAllDeliveries();
+        countDeliveredDeliveries();
         btnLogOut = (Button) findViewById(R.id.btnLogOut);
         //btnNewDelivery = (Button) findViewById(R.id.btnNewDelivery);
         btnViewShipemtns = (Button) findViewById(R.id.btnViewDeliveries);
@@ -84,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
         deliveredDeliveriesTextView = (TextView) findViewById(R.id.deliveredDeliveriesTextView);
 
         //databaseHelper = DatabaseHelper.getInstance(this);
-        //deliveredDeliveriesTextView.setText("" + databaseHelper.countDeliveredDeliveries());
         //--------------------------------------------------------------------
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             //--------------------------------------------------------------------
