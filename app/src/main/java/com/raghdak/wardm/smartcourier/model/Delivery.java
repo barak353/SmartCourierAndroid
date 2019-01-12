@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class Delivery implements Serializable {
     private Long id;
-    private String name;
+    private String address;
     private Integer isUrgent;
     private Double latitude;
     private Double longitude;
@@ -52,12 +52,12 @@ public class Delivery implements Serializable {
         this.pastedOnDoor = pastedOnDoor;
     }
 
-    public Delivery(double latitude, double longitude, Integer isUrgent, String claimant, String name, String phone, String box, Date dueDate, String courierID) {
+    public Delivery(double latitude, double longitude, Integer isUrgent, String claimant, String address, String phone, String box, Date dueDate, String courierID) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.isUrgent = isUrgent;
         this.claimant = claimant;
-        this.name = name;
+        this.address = address;
         this.phone = phone;
         this.box = box;
         this.dueDate = dueDate;
@@ -73,7 +73,7 @@ public class Delivery implements Serializable {
                 ", status='" + status + '\'' +
                 ", isUrgent='" + isUrgent + '\'' +
                 ", claimant='" + claimant + '\'' +
-                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", box='" + box + '\'' +
                 ", dueDate=" + dueDate +
@@ -139,12 +139,12 @@ public class Delivery implements Serializable {
         this.claimant = claimant;
     }
 
-    public String getName() {
-        return name;
+    public String getAddress() {
+        return address;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPhone() {

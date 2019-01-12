@@ -12,7 +12,7 @@ public class User implements Serializable {
     private String password;
     private String token;
     public static User currentUser;
-    public final static String ip = "6d4a9294.ngrok.io";//Copy the URL from forwarding line (Remove the: http://  !!!).
+    public final static String ip = "f7a8eca9.ngrok.io";//Copy the URL from forwarding line (Remove the: http://  !!!).
 
     public User(String email, String password) {
         super();

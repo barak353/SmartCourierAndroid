@@ -135,7 +135,7 @@ public class ViewDeliveriesActivity extends AppCompatActivity {
                     btnNavigate.setEnabled(false);
                 addresses = new ArrayList<String>();
                 for (Delivery delivery : deliveries) {
-                    addresses.add(delivery.getName());
+                    addresses.add(delivery.getAddress());
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewDeliveriesActivity.this, android.R.layout.simple_list_item_1, addresses);
                 listView.setAdapter(adapter);
@@ -204,7 +204,7 @@ public class ViewDeliveriesActivity extends AppCompatActivity {
                         }
                         addresses = new ArrayList<String>();
                         for (Delivery delivery : deliveries) {
-                            addresses.add(delivery.getName());
+                            addresses.add(delivery.getAddress());
                         }
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewDeliveriesActivity.this, android.R.layout.simple_list_item_1, addresses);
                         listView.setAdapter(adapter);
