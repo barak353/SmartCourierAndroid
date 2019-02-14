@@ -1,0 +1,3 @@
+ How to run the Android application:
+1. You should set first the ip and port of the PC the server is running on in the file User.java under ip variable. Then generate a apk.
+2. Install SmartCourierAndroid.apk on your Android phone.
